@@ -74,11 +74,59 @@ public class CourseController {
         if (course.getStatus() == CourseStatus.ACTIVE) {
             course.inactivate();
         } else {
-            course.activate(); 
+            course.activate();
         }
         courseRepository.save(course);
 
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/admin/course/{id}/edit")
+    public String edit(@PathVariable("id") Long id, EditCourseForm form, Model model) {
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid course ID"));
+
+        form.setId(course.getId());
+        form.setName(course.getName());
+        form.setCode(course.getCode());
+        form.setDescription(course.getDescription());
+        form.setInstructorEmail(course.getInstructor());
+        form.setCategoryId(course.getCategory().getId());
+        form.setStatus(course.getStatus());
+
+        model.addAttribute("categories", categoryRepository.findAll());
+        return "/admin/course/editForm";
+    }
+  
+    @PostMapping("/admin/course/{id}/edit")
+    public String update(@PathVariable("id") Long id, @Valid EditCourseForm form, BindingResult bindingResult,
+            Model model) {
+        if (courseRepository.existsByCode(form.getCode()) &&
+                !courseRepository.findByCode(form.getCode()).get().getId().equals(id)) {
+            bindingResult.rejectValue("code", "error.course", "Code already exists");
+        }
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", categoryRepository.findAll());
+            return "/admin/course/editForm";
+        }
+
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid course ID"));
+
+        Category category = categoryRepository.findById(form.getCategoryId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category"));
+
+        course.update(
+                form.getName(),
+                form.getCode(),
+                form.getInstructorEmail(),
+                category,
+                form.getDescription(),
+                form.getStatus());
+
+        courseRepository.save(course);
+
+        return "redirect:/admin/courses";
+    }
 }

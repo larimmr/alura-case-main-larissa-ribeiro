@@ -7,7 +7,7 @@
                 <html>
 
                 <head>
-                    <title>Cadastrar novo Curso</title>
+                    <title>Editar Curso</title>
                     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
                     <link rel="stylesheet" type="text/css" href="/assets/external-libs/bootstrap/css/bootstrap.min.css">
                 </head>
@@ -21,11 +21,11 @@
                     <div class="container">
                         <section class="panel panel-primary vertical-space">
                             <div class="panel-heading">
-                                <h1>Cadastrar novo curso</h1>
+                                <h1>Editar curso</h1>
                             </div>
 
-                            <form:form modelAttribute="newCourseForm" cssClass="form-horizontal panel-body"
-                                action="/admin/course/new" method="post">
+                            <form:form modelAttribute="editCourseForm" cssClass="form-horizontal panel-body"
+                                action="/admin/course/${editCourseForm.id}/edit" method="post">
 
                                 <div class="form-group mb-3">
                                     <label for="course-name">Nome:</label>
@@ -65,8 +65,18 @@
                                     </form:select>
                                     <form:errors path="categoryId" cssClass="text-danger" />
                                 </div>
+
+                                <div class="form-group mb-3">
+                                    <label for="course-status">Status:</label>
+                                    <form:select path="status" id="course-status" cssClass="form-control"
+                                        required="required">
+                                        <form:option value="ACTIVE" label="Ativo" />
+                                        <form:option value="INACTIVE" label="Inativo" />
+                                    </form:select>
+                                    <form:errors path="status" cssClass="text-danger" />
+                                </div>
                                 <div class="form-group mb">
-                                    <button class="btn btn-success" type="submit">Salvar</button>
+                                    <button class="btn btn-primary" type="submit">Salvar alterações</button>
                                 </div>
                             </form:form>
                         </section>

@@ -61,7 +61,7 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <a class="btn btn-primary" href="/course/${course.code}">Ver</a>
+                                            <a class="btn btn-primary" href="/admin/course/${course.id}/edit">Editar</a>
                                         </td>
                                         <td>
                                             <form action="/course/${course.code}/inactive" method="post"
