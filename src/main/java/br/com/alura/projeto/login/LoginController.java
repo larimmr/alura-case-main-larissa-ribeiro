@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import br.com.alura.projeto.category.CategoryRepository;
 import br.com.alura.projeto.course.CourseRepository;
+import br.com.alura.projeto.course.CourseStatus;
 
 @Controller
 public class LoginController {
@@ -20,10 +21,9 @@ public class LoginController {
 
     @GetMapping("/")
     public String home(Model model) {
-      
         var categories = categoryRepository.findAll();
         categories.forEach(cat -> {
-            cat.setCourses(courseRepository.findByCategoryId(cat.getId()));
+            cat.setCourses(courseRepository.findByCategoryIdAndStatus(cat.getId(), CourseStatus.ACTIVE));
         });
         model.addAttribute("categories", categories);
 
