@@ -13,6 +13,7 @@ import br.com.alura.projeto.category.CategoryRepository;
 import java.util.List;
 
 import br.com.alura.projeto.category.Category;
+import br.com.alura.projeto.category.CategoryRepository;
 
 @Controller
 public class CourseController {
@@ -73,7 +74,7 @@ public class CourseController {
         if (course.getStatus() == CourseStatus.ACTIVE) {
             course.inactivate();
         } else {
-            course.activate();
+            course.activate(); 
         }
         courseRepository.save(course);
 
