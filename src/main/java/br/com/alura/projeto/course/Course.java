@@ -102,4 +102,20 @@ public class Course {
         this.status = CourseStatus.ACTIVE;
         this.inactivatedAt = null;
     }
+
+    public void update(String name, String code, String instructor, Category category, String description,
+            CourseStatus status) {
+        this.name = name;
+        this.code = code;
+        this.instructor = instructor;
+        this.category = category;
+        this.description = description;
+
+        if (status == CourseStatus.ACTIVE && this.status == CourseStatus.INACTIVE) {
+            activate();
+        } else if (status == CourseStatus.INACTIVE && this.status == CourseStatus.ACTIVE) {
+            inactivate();
+        }
+    }
+
 }
