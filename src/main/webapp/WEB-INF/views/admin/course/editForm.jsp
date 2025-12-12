@@ -37,7 +37,7 @@
                                 <div class="form-group mb-3">
                                     <label for="course-code">Código:</label>
                                     <form:input path="code" id="course-code" cssClass="form-control"
-                                        required="required" />
+                                        readonly />
                                     <form:errors path="code" cssClass="text-danger" />
                                     <small class="form-text text-muted">Somente letras minúsculas, números e hífen, 4 a
                                         10 caracteres.</small>
