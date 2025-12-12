@@ -78,4 +78,12 @@ public class Category {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public void update(String name, String code, String color, Integer order) {
+        this.name = name;
+        this.code = code;
+        this.color = color;
+        this.order = order;
+    }
+
 }

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -49,6 +50,44 @@ public class CategoryController {
         }
 
         categoryRepository.save(form.toModel());
+        return "redirect:/admin/categories";
+    }
+
+    @GetMapping("/admin/category/edit/{id}")
+    public String edit(@PathVariable("id") Long id, EditCategoryForm form, Model model) {
+
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID"));
+
+        form.setId(category.getId());
+        form.setName(category.getName());
+        form.setCode(category.getCode());
+        form.setColor(category.getColor());
+        form.setOrder(category.getOrder());
+
+        return "/admin/category/editForm";
+    }
+
+    @PostMapping("/admin/category/edit/{id}")
+    public String update(@PathVariable("id") Long id,
+            @Valid EditCategoryForm form,
+            BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "/admin/category/editForm";
+        }
+
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid category ID"));
+
+        category.update(
+                form.getName(),
+                form.getCode(),
+                form.getColor(),
+                form.getOrder());
+
+        categoryRepository.save(category);
+
         return "redirect:/admin/categories";
     }
 
