@@ -2,7 +2,6 @@ package br.com.alura.projeto.course;
 
 import br.com.alura.projeto.category.Category;
 import br.com.alura.projeto.category.CategoryRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -32,9 +31,6 @@ class CourseControllerTest {
 
     @MockBean
     private CategoryRepository categoryRepository;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Test
     void listAllCourses__should_return_ok() throws Exception {
