@@ -12,16 +12,17 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
     boolean existsByUserIdAndCourseId(Long userId, Long courseId);
 
     @Query(value = """
-            SELECT c.name AS courseName,
-                   c.code AS courseCode,
-                   u.name AS instructorName,
-                   u.email AS instructorEmail,
-                   COUNT(r.id) AS totalRegistrations
+                    SELECT
+                c.name AS courseName,
+                c.code AS courseCode,
+                u.name AS instructorName,
+                c.instructor AS instructorEmail,
+                COUNT(r.id) AS totalRegistrations
             FROM registration r
             JOIN course c ON r.course_id = c.id
-            JOIN user u ON c.instructor_id = u.id
+            LEFT JOIN user u ON c.instructor = u.email
             GROUP BY c.id, c.name, c.code, u.name, u.email
-            ORDER BY totalRegistrations DESC
-            """, nativeQuery = true)
+            ORDER BY totalRegistrations DESC;
+                    """, nativeQuery = true)
     List<Object[]> findTopCoursesRaw();
 }
