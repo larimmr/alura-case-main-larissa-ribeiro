@@ -118,4 +118,7 @@ public class Course {
         }
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
